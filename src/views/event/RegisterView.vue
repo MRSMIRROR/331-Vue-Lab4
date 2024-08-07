@@ -2,6 +2,7 @@
 import { ref, toRefs } from 'vue'
 import { type Event } from '@/types'
 import { useRouter } from 'vue-router';
+import { useMessageStore } from '@/stores/message';
 
 const props = defineProps<{
     event: Event
@@ -10,10 +11,19 @@ const props = defineProps<{
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { event } = toRefs(props)
 const router = useRouter()
-
+const store = useMessageStore()
 const showMessage = ref(false)
 const flashMessage = ref('')
 
+const register = () => {
+  store.updateMessage('You are successfully registered for ' + 
+    props.event.title)
+    setTimeout(() => {
+      store.resetMessage()
+    }, 3000)
+    router.push({ name: 'event-detail-view', params: { id: props.event.id }})
+}
+/*
 const register = () => {
     // if the registration API call successful
     showMessage.value = true
@@ -22,7 +32,7 @@ const register = () => {
         showMessage.value = false
         router.push({ name: 'event-detail-view' })
     }, 3000) // Adjust the timeout duration as needed
-}
+}*/
 </script>
 
 <template>
