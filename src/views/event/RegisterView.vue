@@ -38,20 +38,7 @@ const register = () => {
 <template>
   <p>Register event here</p>
   <button @click="register">Register</button>
-  <div v-if="showMessage" class="flash-message">
+  <div v-if="showMessage">
     {{ flashMessage }}
   </div>
 </template>
-
-<style scoped>
-.flash-message {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-</style>
