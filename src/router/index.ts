@@ -94,7 +94,10 @@ const router = createRouter({
       name: 'not-found',
       component: NotFoundView
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { top: 0 }
+  }
 })
 router.beforeEach(() => {
   nProgress.start()
