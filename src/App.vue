@@ -1,11 +1,26 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { useMessageStore } from './stores/message';
 import { storeToRefs } from 'pinia';
 const store = useMessageStore()
 const { message } = storeToRefs(store)
 import { ref } from 'vue'
-const pageSize = ref(2)
+
+const pageSizes = [1, 2, 4, 6, 8, 10]
+const pageSize = ref(pageSizes[1])
+const router = useRouter()
+const route = useRoute()
+
+const updatePageSize = () => {
+  router.push({ 
+    name: 'event-list-view',
+    query: { ...route.query, pageSize: pageSize.value, page: 1 }
+  })
+}
+
+if (route.query.pageSize) {
+  pageSize.value = parseInt(route.query.pageSize.toString())
+}
 </script>
 
 <template>
@@ -20,6 +35,12 @@ const pageSize = ref(2)
           <RouterLink :to="{ name: 'about' }">About</RouterLink>
           <RouterLink :to="{ name: 'Student' }">Student</RouterLink>
         </nav>
+        <div>
+          <label for="page-size">Event per page</label>
+          <select id="page-size" v-model="pageSize" @change="updatePageSize">
+            <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+          </select>
+        </div>
       </div>
     </header>
     <RouterView />
@@ -47,9 +68,11 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
 h2 {
   font-size: 20px;
 }
+
 @keyframes yellofade {
   from {
     background-color: yellow;
@@ -57,6 +80,7 @@ h2 {
     background-color: transparent;
   }
 }
+
 #flashMessage {
   animation: yellofade 3s ease-in-out;
 }
