@@ -3,17 +3,17 @@
   import StudentService from '@/services/StudentService';
   import type { Student } from '@/types';
 
-  const students = ref([]);
+  const students = ref<Student[]>([]);
 
   onMounted(() => {
-    StudentService.getStudents()
-      .then(response => {
-        students.value = response.data;
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-      });
-  });
+  StudentService.getStudents()
+    .then(response => {
+      students.value = response.data as Student[];
+    })
+    .catch(error => {
+      console.error('There was an error!', error);
+    });
+});
   </script>
 
 <template>
